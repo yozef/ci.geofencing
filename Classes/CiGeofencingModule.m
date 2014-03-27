@@ -56,6 +56,12 @@ KrollCallback * _callback;
 -(void)dealloc
 {
 	// release any resources that have been retained by the module
+    
+    [_locationManager release];
+    [_regionArray release];
+    [geofences release];
+    [_callback release];
+    
 	[super dealloc];
 }
 
@@ -111,6 +117,19 @@ KrollCallback * _callback;
         NSLog(@"[INFO] %@",@"This app requires region monitoring features which are unavailable on this device.");
         return;
     }
+    
+    if ([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusAvailable) {
+        NSLog(@"[INFO] %@",@"Background updates are available for the app.");
+    }
+    else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusDenied)
+    {
+        NSLog(@"The user explicitly disabled background behavior for this app or for the whole system.");
+    }
+    else if([[UIApplication sharedApplication] backgroundRefreshStatus] == UIBackgroundRefreshStatusRestricted)
+    {
+        NSLog(@"Background updates are unavailable and the user cannot enable them again. For example, this status can occur when parental controls are in effect for the current user.");
+    }
+
     
     for(CLRegion *geofence in geofences) {
         [_locationManager startMonitoringForRegion:geofence];
@@ -216,6 +235,7 @@ KrollCallback * _callback;
     for(CLRegion *geofence in geofences) {
         [_locationManager stopMonitoringForRegion:geofence];
     }
+    [self dealloc];
     
     //[_locationManager stopMonitoringSignificantLocationChanges];
 }
