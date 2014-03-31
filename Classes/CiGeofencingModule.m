@@ -13,7 +13,7 @@
 
 CLLocationManager *_locationManager;
 NSArray *_regionArray;
-NSArray *geofences;
+NSMutableArray *geofences;
 KrollCallback * _callback;
 
 #pragma mark Internal
@@ -56,8 +56,6 @@ KrollCallback * _callback;
 -(void)dealloc
 {
   // release any resources that have been retained by the module
-  [geofences release];
-
   [super dealloc];
 }
 
@@ -98,12 +96,14 @@ KrollCallback * _callback;
     return;
   }
 
-  _locationManager = [[CLLocationManager alloc] init];
-  _locationManager.delegate = self;
+  if (!_locationManager) {
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+  }
 }
 
 
-- (void) initializeRegionMonitoring:(NSArray*)geofences {
+- (void) initializeRegionMonitoring:(NSMutableArray*)geofences {
 
   if (_locationManager == nil) {
     [NSException raise:@"Location Manager Not Initialized" format:@"You must initialize location manager first."];
@@ -143,7 +143,7 @@ KrollCallback * _callback;
     [geofences addObject:region];
   }
 
-  return [NSArray arrayWithArray:geofences];
+  return geofences;
 }
 
 
@@ -229,11 +229,10 @@ KrollCallback * _callback;
 -(void)stopGeoFencing:(id)args
 {
   for(CLRegion *geofence in geofences) {
+    NSLog(@"Number of geofences here: %i", [[_locationManager monitoredRegions] count]);
     [_locationManager stopMonitoringForRegion:geofence];
   }
-  [self dealloc];
-
-  //[_locationManager stopMonitoringSignificantLocationChanges];
+  [geofences removeAllObjects];
 }
 
 
