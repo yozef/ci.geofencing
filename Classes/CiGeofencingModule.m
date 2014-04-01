@@ -165,7 +165,7 @@ KrollCallback * _callback;
 #pragma mark - Location Manager - Region Task Methods
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region {
-  NSLog(@"Entered Region - %@", region.identifier);
+  /* NSLog(@"Entered Region - %@", region.identifier); */
 
 
   NSMutableDictionary *event = [NSMutableDictionary dictionary];
@@ -175,7 +175,7 @@ KrollCallback * _callback;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region {
-  NSLog(@"Exited Region - %@", region.identifier);
+  /* NSLog(@"Exited Region - %@", region.identifier); */
 
 
   NSMutableDictionary *event = [NSMutableDictionary dictionary];
@@ -184,7 +184,7 @@ KrollCallback * _callback;
 }
 
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region {
-  NSLog(@"Started monitoring %@ region", region.identifier);
+  /* NSLog(@"Started monitoring %@ region", region.identifier); */
 
   NSMutableDictionary *event = [NSMutableDictionary dictionary];
   [event setObject:region.identifier forKey:@"identifier"];
@@ -194,7 +194,7 @@ KrollCallback * _callback;
 #pragma mark - Location Manager - Standard Task Methods
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"[INFO] %@",[NSString stringWithFormat:@"%f,%f",newLocation.coordinate.latitude, newLocation.coordinate.longitude]);
+    /* NSLog(@"[INFO] %@",[NSString stringWithFormat:@"%f,%f",newLocation.coordinate.latitude, newLocation.coordinate.longitude]); */
 }
 
 
