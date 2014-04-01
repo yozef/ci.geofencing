@@ -99,6 +99,9 @@ KrollCallback * _callback;
   if (!_locationManager) {
     _locationManager = [[CLLocationManager alloc] init];
     _locationManager.delegate = self;
+
+    _locationManager.distanceFilter = kCLLocationAccuracyNearestTenMeters;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
   }
 }
 
